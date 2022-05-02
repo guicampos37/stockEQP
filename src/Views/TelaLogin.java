@@ -1,6 +1,15 @@
 package Views;
+import Classes.Usuario;
 import java.awt.Color;
 import java.awt.geom.RoundRectangle2D;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class TelaLogin extends javax.swing.JFrame {
 
@@ -12,97 +21,129 @@ public class TelaLogin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        inputEmail = new javax.swing.JTextField();
+        btnLogin = new javax.swing.JButton();
+        inputSenha = new javax.swing.JPasswordField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextField1.setFont(new java.awt.Font("Gill Sans MT", 0, 20)); // NOI18N
-        jTextField1.setForeground(new java.awt.Color(241, 241, 241));
-        jTextField1.setText("E-mail");
-        jTextField1.setBorder(null);
-        jTextField1.addFocusListener(new java.awt.event.FocusAdapter() {
+        inputEmail.setFont(new java.awt.Font("Gill Sans MT", 0, 20)); // NOI18N
+        inputEmail.setForeground(new java.awt.Color(102, 102, 102));
+        inputEmail.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inputEmail.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField1FocusGained(evt);
+                inputEmailFocusGained(evt);
             }
             public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField1FocusLost(evt);
+                inputEmailFocusLost(evt);
             }
         });
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 260, 286, 42));
-
-        jTextField2.setFont(new java.awt.Font("Gill Sans MT", 0, 20)); // NOI18N
-        jTextField2.setForeground(new java.awt.Color(241, 241, 241));
-        jTextField2.setText("Password");
-        jTextField2.setBorder(null);
-        jTextField2.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusGained(java.awt.event.FocusEvent evt) {
-                jTextField2FocusGained(evt);
-            }
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jTextField2FocusLost(evt);
-            }
-        });
-        getContentPane().add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 320, 286, 42));
-
-        jButton1.setBackground(new java.awt.Color(97, 107, 242));
-        jButton1.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(241, 241, 241));
-        jButton1.setText("Login");
-        jButton1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        inputEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                inputEmailActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 418, 158, 38));
+        getContentPane().add(inputEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 270, 290, 40));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/eqp/login/PROJETO STOCK.EQP.png"))); // NOI18N
-        jLabel2.setText("jLabel2");
+        btnLogin.setBackground(new java.awt.Color(97, 107, 242));
+        btnLogin.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        btnLogin.setForeground(new java.awt.Color(241, 241, 241));
+        btnLogin.setText("Login");
+        btnLogin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 418, 158, 38));
+
+        inputSenha.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        inputSenha.setPreferredSize(new java.awt.Dimension(50, 26));
+        inputSenha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputSenhaActionPerformed(evt);
+            }
+        });
+        getContentPane().add(inputSenha, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 360, 290, 40));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel1.setText("Email");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, 80, 20));
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Senha");
+        getContentPane().add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 330, 60, 20));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/PROJETO STOCK.EQP.png"))); // NOI18N
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 590));
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        try {
+            String email, senha;
+            
+            email = inputEmail.getText();
+            senha = new String(inputSenha.getPassword());
+            
+            MessageDigest md = MessageDigest.getInstance("SHA-256");
+            byte messageDigest[] = md.digest(senha.getBytes("UTF-8"));
 
-    private void jTextField1FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusGained
-        if (jTextField1.getText().equals("E-mail")) {
-            jTextField1.setText("");
-        }
-        jTextField1.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jTextField1FocusGained
+            StringBuilder sb = new StringBuilder();
 
-    private void jTextField1FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField1FocusLost
-        if (jTextField1.getText().equals("")) {
-            jTextField1.setText("E-mail");
-            jTextField1.setForeground(new Color (241,241,241));
+            for(byte b : messageDigest) {
+                sb.append(String.format("%02X", 0xFF & b));                    
+            }
+            
+            String senhaHex = sb.toString();
+            
+            Usuario usuario = new Usuario();
+            usuario.setEmail(email);
+            usuario.setSenha(senhaHex);
+            ResultSet rsAutUsuario = usuario.autenticacaoUsuario(usuario);
+            
+            if(rsAutUsuario.next()) {
+                if(rsAutUsuario.getString(5).equals("1")) {
+                    TelaDeVisualizacao view = new TelaDeVisualizacao();
+                    view.setVisible(true);
+                } else {
+                    VisualizacaoUsuario view = new VisualizacaoUsuario();
+                    view.setVisible(true);              
+                }
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário ou senha incorretos");                
+            } 
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "LOGINVIEW" + e);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException ex) {
+            Logger.getLogger(TelaLogin.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }//GEN-LAST:event_jTextField1FocusLost
+    }//GEN-LAST:event_btnLoginActionPerformed
 
-    private void jTextField2FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusGained
-        if (jTextField2.getText().equals("Password")) {
-            jTextField2.setText("");
-        }
-        jTextField2.setForeground(Color.BLACK);
-    }//GEN-LAST:event_jTextField2FocusGained
+    private void inputEmailFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputEmailFocusGained
+        inputEmail.setForeground(Color.BLACK);
+    }//GEN-LAST:event_inputEmailFocusGained
 
-    private void jTextField2FocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField2FocusLost
-        if (jTextField2.getText().equals("")) {
-            jTextField2.setText("Password");
-            jTextField2.setForeground(new Color (241,241,241));
-        }
-        
-    }//GEN-LAST:event_jTextField2FocusLost
+    private void inputEmailFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_inputEmailFocusLost
+
+    }//GEN-LAST:event_inputEmailFocusLost
+
+    private void inputEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputEmailActionPerformed
+
+    private void inputSenhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputSenhaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputSenhaActionPerformed
 
     public static void main(String args[]) {
      
@@ -132,9 +173,11 @@ public class TelaLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JTextField inputEmail;
+    private javax.swing.JPasswordField inputSenha;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JLabel jLabel3;
     // End of variables declaration//GEN-END:variables
 }

@@ -109,6 +109,9 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton3ActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -215,7 +218,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/eqp/login/211817_search_strong_icon (3).png"/>
+          <Image iconType="3" name="/Imagens/search icon.png"/>
         </Property>
       </Properties>
       <Constraints>
@@ -230,7 +233,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/eqp/login/211835_trash_icon.png"/>
+          <Image iconType="3" name="/Imagens/211835_trash_icon (1).png"/>
         </Property>
       </Properties>
       <Constraints>
@@ -245,7 +248,7 @@
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
         </Property>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/eqp/login/1976055_edit_edit document_edit file_edited_editing_icon.png"/>
+          <Image iconType="3" name="/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"/>
         </Property>
       </Properties>
       <Constraints>
