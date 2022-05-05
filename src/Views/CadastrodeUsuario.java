@@ -37,10 +37,11 @@ public class CadastrodeUsuario extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         inputNome = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         inputEmail = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -51,38 +52,11 @@ public class CadastrodeUsuario extends javax.swing.JFrame {
         radioComum = new javax.swing.JRadioButton();
         radioAdm = new javax.swing.JRadioButton();
         btnCadastrar = new javax.swing.JButton();
-        btnVoltar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(900, 650));
         setSize(new java.awt.Dimension(900, 657));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jPanel1.setBackground(new java.awt.Color(8, 12, 70));
-        jPanel1.setPreferredSize(new java.awt.Dimension(907, 94));
-
-        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("CADASTRO DE USUÁRIO");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(322, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(306, 306, 306))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jLabel1)
-                .addContainerGap(36, Short.MAX_VALUE))
-        );
-
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, -1));
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel2.setText("Nome:");
@@ -91,6 +65,45 @@ public class CadastrodeUsuario extends javax.swing.JFrame {
         inputNome.setBorder(null);
         inputNome.setPreferredSize(new java.awt.Dimension(390, 38));
         getContentPane().add(inputNome, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 150, 400, -1));
+
+        jPanel1.setBackground(new java.awt.Color(8, 12, 70));
+        jPanel1.setPreferredSize(new java.awt.Dimension(907, 94));
+
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("CADASTRO DE USUÁRIO");
+
+        jButton2.setBackground(new java.awt.Color(8, 12, 70));
+        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Caio\\Desktop\\stockeqp\\stockEQP\\src\\Imagens\\botao-voltar (1).png")); // NOI18N
+        jButton2.setBorder(null);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 261, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(306, 306, 306))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(28, 28, 28)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 900, -1));
 
         jLabel3.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         jLabel3.setText("Senha:");
@@ -153,23 +166,9 @@ public class CadastrodeUsuario extends javax.swing.JFrame {
         });
         getContentPane().add(btnCadastrar, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 560, -1, -1));
 
-        btnVoltar.setText("Voltar");
-        btnVoltar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVoltarActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnVoltar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 80, 30));
-
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnVoltarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVoltarActionPerformed
-        TelaDeVisualizacao view = new TelaDeVisualizacao();
-        view.setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnVoltarActionPerformed
 
     private void radioAdmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioAdmActionPerformed
         radioComum.setSelected(false);
@@ -237,6 +236,12 @@ public class CadastrodeUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        TelaDeVisualizacao tela = new TelaDeVisualizacao();
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -274,11 +279,11 @@ public class CadastrodeUsuario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCadastrar;
-    private javax.swing.JButton btnVoltar;
     private javax.swing.JPasswordField inputConfSenha;
     private javax.swing.JTextField inputEmail;
     private javax.swing.JTextField inputNome;
     private javax.swing.JPasswordField inputSenha;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
