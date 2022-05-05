@@ -10,5 +10,6 @@ package Classes;
  * @author Gui
  */
 public class teste {
-    
+    int teste = 1;
+    boolean burro = true;
 }
