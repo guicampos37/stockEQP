@@ -281,6 +281,9 @@ public class CadastroProdutos extends javax.swing.JFrame {
         }
         
         novoProduto.store(novoProduto);
+        TelaDeVisualizacao view = new TelaDeVisualizacao();
+        view.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCadastrarProdutoActionPerformed
 
     /**

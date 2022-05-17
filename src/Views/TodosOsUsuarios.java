@@ -41,7 +41,7 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
                 tblModel.addRow(tbData);
             }
         } catch(SQLException e) {
-            System.err.println("Erro ao exibir usuários: " + e);
+            System.err.println("Erro ao exibir os usuários: " + e);
         }
 
     }

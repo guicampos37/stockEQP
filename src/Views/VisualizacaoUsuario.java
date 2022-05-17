@@ -5,6 +5,12 @@
  */
 package Views;
 
+import Classes.Conexao;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Caio
@@ -16,6 +22,30 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
      */
     public VisualizacaoUsuario() {
         initComponents();
+        
+        Connection conn = new Conexao().getConnection();
+        
+        try{
+            Statement st = conn.createStatement();
+            String sql = "SELECT * FROM produtos";
+            
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next()) {
+                String nome = rs.getString("nome");
+                String codigo = rs.getString("codigo");
+                String fornecedor = rs.getString("fornecedor");
+                String quantidade = rs.getString("quantidade");
+                String quantidade_minima = rs.getString("quantidade_minima");
+                String localizacao = rs.getString("localizacao_fisica");
+                
+                String tbData[] = {codigo, nome, fornecedor, quantidade, quantidade_minima, localizacao};
+                DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
+                tblModel.addRow(tbData);
+            }
+        } catch(Exception e) {
+            System.err.println("Erro ao exibir os produtos: " + e);
+        }
     }
 
     /**
@@ -28,7 +58,7 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaProdutos = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
@@ -37,42 +67,12 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Código", "Nome", "Fabricante", "Qtd Atual", "Qtd Mínima", "Localização Física"
+                "Código", "Nome", "Fornecedor", "Qtd Atual", "Qtd Mínima", "Localização Física"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -83,19 +83,19 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jTable1.setPreferredSize(new java.awt.Dimension(525, 600));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(190);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(60);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(190);
+        tabelaProdutos.setGridColor(new java.awt.Color(0, 0, 0));
+        tabelaProdutos.setPreferredSize(new java.awt.Dimension(525, 600));
+        jScrollPane1.setViewportView(tabelaProdutos);
+        if (tabelaProdutos.getColumnModel().getColumnCount() > 0) {
+            tabelaProdutos.getColumnModel().getColumn(0).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
+            tabelaProdutos.getColumnModel().getColumn(1).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(1).setPreferredWidth(190);
+            tabelaProdutos.getColumnModel().getColumn(3).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(3).setPreferredWidth(80);
+            tabelaProdutos.getColumnModel().getColumn(4).setPreferredWidth(60);
+            tabelaProdutos.getColumnModel().getColumn(5).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(5).setPreferredWidth(190);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -193,7 +193,7 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tabelaProdutos;
     // End of variables declaration//GEN-END:variables
 }

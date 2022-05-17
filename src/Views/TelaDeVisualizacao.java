@@ -5,6 +5,14 @@
  */
 package Views;
 
+import Classes.Conexao;
+import Classes.Produto;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Caio
@@ -16,6 +24,31 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
      */
     public TelaDeVisualizacao() {
         initComponents();
+        
+        Connection conn = new Conexao().getConnection();
+        
+        try{
+            Statement st = conn.createStatement();
+            String sql = "SELECT * FROM produtos";
+            
+            ResultSet rs = st.executeQuery(sql);
+            
+            while(rs.next()) {
+                String id = rs.getString("id");
+                String nome = rs.getString("nome");
+                String codigo = rs.getString("codigo");
+                String fornecedor = rs.getString("fornecedor");
+                String quantidade = rs.getString("quantidade");
+                String quantidade_minima = rs.getString("quantidade_minima");
+                String localizacao = rs.getString("localizacao_fisica");
+                
+                String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, localizacao};
+                DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
+                tblModel.addRow(tbData);
+            }
+        } catch(Exception e) {
+            System.err.println("Erro ao exibir os produtos: " + e);
+        }        
     }
 
     /**
@@ -34,10 +67,10 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaProdutos = new javax.swing.JTable();
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        deletarProduto = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -78,66 +111,42 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         jLabel2.setText("Estoque");
         getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(156, 16, -1, -1));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+
             },
             new String [] {
-                "Código", "Nome", "Fabricante", "Qtd Atual", "Qtd Mínima", "Localização Física"
+                "ID", "Código", "Nome", "Fornecedor", "Qtd Atual", "Qtd Mínima", "Localização Física"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false, false
+                false, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.setGridColor(new java.awt.Color(0, 0, 0));
-        jTable1.setPreferredSize(new java.awt.Dimension(525, 600));
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setPreferredWidth(180);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setPreferredWidth(80);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setPreferredWidth(50);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setPreferredWidth(100);
+        tabelaProdutos.setGridColor(new java.awt.Color(0, 0, 0));
+        tabelaProdutos.setPreferredSize(new java.awt.Dimension(525, 600));
+        tabelaProdutos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabelaProdutosMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tabelaProdutos);
+        if (tabelaProdutos.getColumnModel().getColumnCount() > 0) {
+            tabelaProdutos.getColumnModel().getColumn(0).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(1).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(1).setPreferredWidth(50);
+            tabelaProdutos.getColumnModel().getColumn(2).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(2).setPreferredWidth(180);
+            tabelaProdutos.getColumnModel().getColumn(4).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tabelaProdutos.getColumnModel().getColumn(5).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(5).setPreferredWidth(50);
+            tabelaProdutos.getColumnModel().getColumn(6).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(6).setPreferredWidth(100);
         }
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(133, 45, 740, 569));
@@ -150,9 +159,14 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/search icon.png"))); // NOI18N
         getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 30, 30));
 
-        jButton5.setForeground(new java.awt.Color(204, 204, 204));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/211835_trash_icon (1).png"))); // NOI18N
-        getContentPane().add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 30, 30));
+        deletarProduto.setForeground(new java.awt.Color(204, 204, 204));
+        deletarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/211835_trash_icon (1).png"))); // NOI18N
+        deletarProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deletarProdutoMouseClicked(evt);
+            }
+        });
+        getContentPane().add(deletarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 30, 30));
 
         jButton6.setForeground(new java.awt.Color(204, 204, 204));
         jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"))); // NOI18N
@@ -167,6 +181,24 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         viewCadUsuario.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
+        
+    }//GEN-LAST:event_tabelaProdutosMouseClicked
+
+    private void deletarProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deletarProdutoMouseClicked
+        //System.out.println(tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0));
+        String idString = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0);
+        int id = Integer.parseInt(idString);
+        
+        int input = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar esse produto?");
+        if(input == 0) {
+            Produto p = new Produto();
+            p.delete(id);
+            JOptionPane.showMessageDialog(null, "Produto deletado com sucesso!");
+            ((DefaultTableModel)tabelaProdutos.getModel()).removeRow(tabelaProdutos.getSelectedRow());
+        }        
+    }//GEN-LAST:event_deletarProdutoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -205,17 +237,17 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton deletarProduto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tabelaProdutos;
     // End of variables declaration//GEN-END:variables
 }

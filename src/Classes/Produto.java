@@ -5,6 +5,15 @@ import java.sql.PreparedStatement;
 import javax.swing.JOptionPane;
 
 public class Produto {
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
     private String nome;
     private String codigo;
     private String fornecedor;
@@ -88,6 +97,21 @@ public class Produto {
             pstm.execute();
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar o produto: " + e);            
+        }
+    }
+    
+    public void delete(int id)
+    {
+        Connection conn = new Conexao().getConnection();
+
+        try{
+            String sql = "DELETE from produtos WHERE id = ?";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+        
+            pstm.setInt(1, id);
+            pstm.execute();
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao deletar o produto: " + e);                        
         }
     }
 }
