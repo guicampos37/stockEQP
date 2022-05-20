@@ -62,9 +62,9 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnCadProd = new javax.swing.JButton();
+        btnTodUsu = new javax.swing.JButton();
+        btnCadUsu = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaProdutos = new javax.swing.JTable();
@@ -85,25 +85,35 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         jLabel1.setPreferredSize(new java.awt.Dimension(236, 100));
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, 10, 148, 46));
 
-        jButton1.setBackground(new java.awt.Color(255, 255, 255));
-        jButton1.setText("Cadastrar produto");
-        jButton1.setBorder(null);
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 76, 120, 46));
-
-        jButton2.setBackground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Todos os usuários");
-        jButton2.setBorder(null);
-        jPanel1.add(jButton2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 128, 120, 46));
-
-        jButton3.setBackground(new java.awt.Color(255, 255, 255));
-        jButton3.setText("Cadastrar usuário");
-        jButton3.setBorder(null);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnCadProd.setBackground(new java.awt.Color(255, 255, 255));
+        btnCadProd.setText("Cadastrar produto");
+        btnCadProd.setBorder(null);
+        btnCadProd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnCadProdActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 120, 46));
+        jPanel1.add(btnCadProd, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 76, 120, 46));
+
+        btnTodUsu.setBackground(new java.awt.Color(255, 255, 255));
+        btnTodUsu.setText("Todos os usuários");
+        btnTodUsu.setBorder(null);
+        btnTodUsu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTodUsuActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnTodUsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 128, 120, 46));
+
+        btnCadUsu.setBackground(new java.awt.Color(255, 255, 255));
+        btnCadUsu.setText("Cadastrar usuário");
+        btnCadUsu.setBorder(null);
+        btnCadUsu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCadUsuActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnCadUsu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 180, 120, 46));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 125, 625));
 
@@ -181,11 +191,11 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnCadUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadUsuActionPerformed
         CadastrodeUsuario viewCadUsuario = new CadastrodeUsuario();
         viewCadUsuario.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnCadUsuActionPerformed
 
     private void tabelaProdutosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelaProdutosMouseClicked
         
@@ -225,6 +235,18 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         } 
     }//GEN-LAST:event_btnEditarProdutoMouseClicked
 
+    private void btnCadProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadProdActionPerformed
+        CadastroProdutos CadProd = new CadastroProdutos();
+        CadProd.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnCadProdActionPerformed
+
+    private void btnTodUsuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTodUsuActionPerformed
+        TodosOsUsuarios TodUsu = new TodosOsUsuarios();
+        TodUsu.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnTodUsuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -262,11 +284,11 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnCadProd;
+    private javax.swing.JButton btnCadUsu;
     private javax.swing.JButton btnEditarProduto;
+    private javax.swing.JButton btnTodUsu;
     private javax.swing.JButton deletarProduto;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
