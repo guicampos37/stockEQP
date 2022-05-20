@@ -34,9 +34,9 @@
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="jScrollPane1" min="-2" pref="789" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
-                              <Component id="jButton6" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="btnEditarUsuarios" min="-2" pref="30" max="-2" attributes="0"/>
                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
-                              <Component id="jButton5" min="-2" pref="30" max="-2" attributes="0"/>
+                              <Component id="btnDeletarUsuario" min="-2" pref="30" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="jButton4" min="-2" pref="30" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
@@ -58,8 +58,8 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jButton4" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="jTextField1" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jButton6" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jButton5" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="btnEditarUsuarios" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="btnDeletarUsuario" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="348" max="-2" attributes="0"/>
@@ -159,7 +159,8 @@
         <Component class="javax.swing.JTable" name="tabelaUsuarios">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="0">
+              <Table columnCount="4" rowCount="0">
+                <Column editable="false" title="ID" type="java.lang.Object"/>
                 <Column editable="true" title="Nome" type="java.lang.Object"/>
                 <Column editable="true" title="Email" type="java.lang.Object"/>
                 <Column editable="true" title="Cargo" type="java.lang.Object"/>
@@ -167,6 +168,11 @@
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">
               <TableColumnModel selectionModel="0">
+                <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
+                  <Title/>
+                  <Editor/>
+                  <Renderer/>
+                </Column>
                 <Column maxWidth="-1" minWidth="-1" prefWidth="-1" resizable="true">
                   <Title/>
                   <Editor/>
@@ -191,7 +197,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="jButton6">
+    <Component class="javax.swing.JButton" name="btnEditarUsuarios">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -200,8 +206,11 @@
           <Image iconType="3" name="/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnEditarUsuariosMouseClicked"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton5">
+    <Component class="javax.swing.JButton" name="btnDeletarUsuario">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -210,6 +219,9 @@
           <Image iconType="3" name="/Imagens/211835_trash_icon (1).png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDeletarUsuarioMouseClicked"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

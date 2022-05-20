@@ -6,10 +6,12 @@
 package Views;
 
 import Classes.Conexao;
+import Classes.Usuario;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -27,16 +29,17 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
         Connection conn = new Conexao().getConnection();
         try{
             Statement st = conn.createStatement();
-            String sql = "SELECT usuarios.nome, usuarios.email, cargos.nome FROM usuarios JOIN cargos ON usuarios.cargo_id = cargos.id";           
+            String sql = "SELECT usuarios.id, usuarios.nome, usuarios.email, cargos.nome FROM usuarios JOIN cargos ON usuarios.cargo_id = cargos.id";           
 
             ResultSet rs = st.executeQuery(sql);
             
             while(rs.next()) {
+                String id = rs.getString("usuarios.id");
                 String nome = rs.getString("usuarios.nome");
                 String email = rs.getString("usuarios.email");
                 String cargo = rs.getString("cargos.nome");
                 
-                String tbData[] = {nome, email, cargo};
+                String tbData[] = {id, nome, email, cargo};
                 DefaultTableModel tblModel = (DefaultTableModel)tabelaUsuarios.getModel();
                 tblModel.addRow(tbData);
             }
@@ -62,8 +65,8 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaUsuarios = new javax.swing.JTable();
-        jButton6 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnEditarUsuarios = new javax.swing.JButton();
+        btnDeletarUsuario = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setPreferredSize(new java.awt.Dimension(900, 578));
@@ -115,16 +118,34 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nome", "Email", "Cargo"
+                "ID", "Nome", "Email", "Cargo"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, true, true, true
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tabelaUsuarios);
 
-        jButton6.setForeground(new java.awt.Color(204, 204, 204));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"))); // NOI18N
+        btnEditarUsuarios.setForeground(new java.awt.Color(204, 204, 204));
+        btnEditarUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"))); // NOI18N
+        btnEditarUsuarios.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarUsuariosMouseClicked(evt);
+            }
+        });
 
-        jButton5.setForeground(new java.awt.Color(204, 204, 204));
-        jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/211835_trash_icon (1).png"))); // NOI18N
+        btnDeletarUsuario.setForeground(new java.awt.Color(204, 204, 204));
+        btnDeletarUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/211835_trash_icon (1).png"))); // NOI18N
+        btnDeletarUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnDeletarUsuarioMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -138,9 +159,9 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 789, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnEditarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(10, 10, 10)
-                                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(btnDeletarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -156,8 +177,8 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnEditarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDeletarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 348, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(79, 79, 79))
@@ -172,6 +193,32 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
         tela.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btnDeletarUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeletarUsuarioMouseClicked
+        String idString = (String) tabelaUsuarios.getValueAt(tabelaUsuarios.getSelectedRow(), 0);
+        int id = Integer.parseInt(idString);
+        
+        int input = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja deletar esse usuário?");
+        if(input == 0) {
+            Usuario u = new Usuario();
+            u.delete(id);
+            JOptionPane.showMessageDialog(null, "Usuário deletado com sucesso!");
+            ((DefaultTableModel)tabelaUsuarios.getModel()).removeRow(tabelaUsuarios.getSelectedRow());            
+        }
+    }//GEN-LAST:event_btnDeletarUsuarioMouseClicked
+
+    private void btnEditarUsuariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarUsuariosMouseClicked
+        String idString = (String) tabelaUsuarios.getValueAt(tabelaUsuarios.getSelectedRow(), 0);
+        int id = Integer.parseInt(idString);
+        String nome = (String) tabelaUsuarios.getValueAt(tabelaUsuarios.getSelectedRow(), 1);
+        String email = (String) tabelaUsuarios.getValueAt(tabelaUsuarios.getSelectedRow(), 2);
+        int input = JOptionPane.showConfirmDialog(null, "Os novos dados serão os dados alterados diretamente na tabela, deseja alterar os dados do usuários selecionado?");
+        if(input == 0) {
+            Usuario u = new Usuario();
+            u.update(id, nome, email);
+            JOptionPane.showMessageDialog(null, "Usuário atualizado com sucesso!");
+        }
+    }//GEN-LAST:event_btnEditarUsuariosMouseClicked
 
     /**
      * @param args the command line arguments
@@ -209,10 +256,10 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnDeletarUsuario;
+    private javax.swing.JButton btnEditarUsuarios;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

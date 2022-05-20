@@ -71,7 +71,7 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         jTextField1 = new javax.swing.JTextField();
         jButton4 = new javax.swing.JButton();
         deletarProduto = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
+        btnEditarProduto = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -168,9 +168,14 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         });
         getContentPane().add(deletarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 30, 30));
 
-        jButton6.setForeground(new java.awt.Color(204, 204, 204));
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"))); // NOI18N
-        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 30, 30));
+        btnEditarProduto.setForeground(new java.awt.Color(204, 204, 204));
+        btnEditarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"))); // NOI18N
+        btnEditarProduto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnEditarProdutoMouseClicked(evt);
+            }
+        });
+        getContentPane().add(btnEditarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 30, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -199,6 +204,26 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
             ((DefaultTableModel)tabelaProdutos.getModel()).removeRow(tabelaProdutos.getSelectedRow());
         }        
     }//GEN-LAST:event_deletarProdutoMouseClicked
+
+    private void btnEditarProdutoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditarProdutoMouseClicked
+        String idString = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 0);
+        int id = Integer.parseInt(idString);
+        String codigo = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 1);
+        String nome = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 2);
+        String fornecedor = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 3);
+        String qtd_atual_string = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 4);
+        int qtd_atual = Integer.parseInt(qtd_atual_string);
+        String qtd_minima_string = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 5);
+        int qtd_minima = Integer.parseInt(qtd_minima_string);
+        String localizacao = (String) tabelaProdutos.getValueAt(tabelaProdutos.getSelectedRow(), 6);
+        
+        int input = JOptionPane.showConfirmDialog(null, "Os novos dados serão os dados alterados diretamente na tabela, deseja alterar os dados do produto selecionado?");
+        if(input == 0) {
+            Produto p = new Produto();
+            p.update(id, codigo, nome, fornecedor, qtd_atual, qtd_minima, localizacao);
+            JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
+        } 
+    }//GEN-LAST:event_btnEditarProdutoMouseClicked
 
     /**
      * @param args the command line arguments
@@ -237,12 +262,12 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnEditarProduto;
     private javax.swing.JButton deletarProduto;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

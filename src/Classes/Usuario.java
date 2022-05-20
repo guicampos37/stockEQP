@@ -7,10 +7,19 @@ import java.sql.SQLException;
 import javax.swing.JOptionPane;
 
 public class Usuario {
+    private int id;
     private String nome;
     private String email;
     private String senha;
     private int cargo_id;
+    
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getCargo_id() {
         return cargo_id;
@@ -83,6 +92,38 @@ public class Usuario {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao cadastrar o usuário: " + e);
             return false;
+        }
+    }
+    
+    public void delete(int id)
+    {
+        Connection conn = new Conexao().getConnection();
+        
+        try{
+            String sql = "DELETE FROM usuarios WHERE id = ?";
+            
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setInt(1, id);
+            pstm.execute();
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao deletar o usuário: " + e);
+        }
+    }
+    
+    public void update(int id, String nome, String email)
+    {
+        Connection conn = new Conexao().getConnection();
+        
+        try {
+            String sql = "UPDATE usuarios SET nome = ?, email = ? WHERE id = ?";
+            
+            PreparedStatement pstm = conn.prepareStatement(sql);
+            pstm.setString(1, nome);
+            pstm.setString(2, email);
+            pstm.setInt(3, id);
+            pstm.execute();
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao editar o usuário: " + e);
         }
     }
 }

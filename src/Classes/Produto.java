@@ -6,6 +6,13 @@ import javax.swing.JOptionPane;
 
 public class Produto {
     private int id;
+    private String nome;
+    private String codigo;
+    private String fornecedor;
+    private int quantidade;
+    private int quantidade_minima;
+    private String categoria;
+    private String localizacao_fisica;
 
     public int getId() {
         return id;
@@ -14,13 +21,7 @@ public class Produto {
     public void setId(int id) {
         this.id = id;
     }
-    private String nome;
-    private String codigo;
-    private String fornecedor;
-    private int quantidade;
-    private int quantidade_minima;
-    private String categoria;
-    private String localizacao_fisica;
+
 
     public String getNome() {
         return nome;
@@ -109,6 +110,27 @@ public class Produto {
             PreparedStatement pstm = conn.prepareStatement(sql);
         
             pstm.setInt(1, id);
+            pstm.execute();
+        } catch(Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao deletar o produto: " + e);                        
+        }
+    }
+    
+    public void update(int id, String codigo, String nome, String fornecedor, int qtd_atual, int qtd_minima, String localizacao) 
+    {
+        Connection conn = new Conexao().getConnection();
+        
+        try{
+            String sql = "UPDATE produtos SET codigo = ?, nome = ?, fornecedor = ?, quantidade = ?, quantidade_minima = ?, localizacao_fisica = ? WHERE id = ?";
+            PreparedStatement pstm = conn.prepareStatement(sql);
+        
+            pstm.setString(1, codigo);
+            pstm.setString(2, nome);
+            pstm.setString(3, fornecedor);
+            pstm.setInt(4, qtd_atual);
+            pstm.setInt(5, qtd_minima);
+            pstm.setString(6, localizacao);
+            pstm.setInt(7, id);
             pstm.execute();
         } catch(Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao deletar o produto: " + e);                        
