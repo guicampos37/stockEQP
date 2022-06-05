@@ -185,6 +185,11 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
                 btnEditarProdutoMouseClicked(evt);
             }
         });
+        btnEditarProduto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditarProdutoActionPerformed(evt);
+            }
+        });
         getContentPane().add(btnEditarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 30, 30));
 
         pack();
@@ -231,8 +236,18 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         if(input == 0) {
             Produto p = new Produto();
             p.update(id, codigo, nome, fornecedor, qtd_atual, qtd_minima, localizacao);
-            JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
-        } 
+            
+            if (qtd_atual < qtd_minima) {
+            Object[] options = { "Enviar", "Cancelar" };
+                JOptionPane.showOptionDialog(null, "Enviar e-mail para fornecedor?", "Estoque minimo atingido",
+                JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+
+            }
+        }
+            else{
+                JOptionPane.showMessageDialog(null, "Produto atualizado com sucesso!");
+            }
+         
     }//GEN-LAST:event_btnEditarProdutoMouseClicked
 
     private void btnCadProdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCadProdActionPerformed
@@ -246,6 +261,10 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         TodUsu.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnTodUsuActionPerformed
+
+    private void btnEditarProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarProdutoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEditarProdutoActionPerformed
 
     /**
      * @param args the command line arguments
