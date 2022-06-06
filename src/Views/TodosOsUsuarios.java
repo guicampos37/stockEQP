@@ -8,6 +8,7 @@ package Views;
 import Classes.Conexao;
 import Classes.Usuario;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -62,8 +63,8 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        campoPesquisa = new javax.swing.JTextField();
+        pesquisaBtn = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaUsuarios = new javax.swing.JTable();
         btnEditarUsuarios = new javax.swing.JButton();
@@ -88,7 +89,7 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
         });
 
         jButton2.setBackground(new java.awt.Color(8, 12, 70));
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Caio\\Desktop\\stockeqp\\stockEQP\\src\\Imagens\\botao-voltar (1).png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/botao-voltar (1).png"))); // NOI18N
         jButton2.setBorder(null);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,11 +121,16 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
                 .addContainerGap(32, Short.MAX_VALUE))
         );
 
-        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField1.setText("Digite para pesquisar");
+        campoPesquisa.setForeground(new java.awt.Color(204, 204, 204));
+        campoPesquisa.setText("Digite para pesquisar");
 
-        jButton4.setForeground(new java.awt.Color(204, 204, 204));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/search icon.png"))); // NOI18N
+        pesquisaBtn.setForeground(new java.awt.Color(204, 204, 204));
+        pesquisaBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/search icon.png"))); // NOI18N
+        pesquisaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisaBtnMouseClicked(evt);
+            }
+        });
 
         tabelaUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -173,9 +179,9 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
                         .addGap(10, 10, 10)
                         .addComponent(btnDeletarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pesquisaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(59, 69, Short.MAX_VALUE))
             .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
         );
@@ -185,8 +191,8 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pesquisaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnEditarUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDeletarUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -236,6 +242,67 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void pesquisaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesquisaBtnMouseClicked
+        String campo_pesquisa = campoPesquisa.getText();
+        
+        Connection conn = new Conexao().getConnection();
+        try {        
+            DefaultTableModel tblRemove = (DefaultTableModel)tabelaUsuarios.getModel();
+            
+            if(campo_pesquisa.equals(null)) {
+                String sql = "SELECT usuarios.id, usuarios.nome, usuarios.email, cargos.nome FROM usuarios JOIN cargos ON usuarios.cargo_id = cargos.id";
+                
+                while(tblRemove.getRowCount() > 0) {
+                    if (tblRemove.getRowCount() > 0){
+                        for (int i=1;i<=tblRemove.getRowCount();i++){
+                            tblRemove.removeRow(0);
+                        }            
+                    }
+                }   
+                
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+                ResultSet rs = pstm.executeQuery();
+                
+                while(rs.next()) {                
+                    String id = rs.getString("usuario.id");
+                    String nome = rs.getString("usuarios.nome");
+                    String email = rs.getString("usuarios.email");
+                    String cargo = rs.getString("cargos.nome");
+
+                    String tbData[] = {id, nome, email, cargo};
+                    DefaultTableModel tblModel = (DefaultTableModel)tabelaUsuarios.getModel();
+                    tblModel.addRow(tbData);
+                }                
+                
+            } else { 
+                String sql = "SELECT usuarios.id, usuarios.nome, usuarios.email, cargos.nome FROM usuarios JOIN cargos ON usuarios.cargo_id = cargos.id WHERE usuarios.nome LIKE '" + campo_pesquisa + "%'";                  
+                
+                while(tblRemove.getRowCount() > 0) {
+                    if (tblRemove.getRowCount() > 0){
+                        for (int i=1;i<=tblRemove.getRowCount();i++){
+                            tblRemove.removeRow(0);
+                        }            
+                    }
+                }
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+                ResultSet rs = pstm.executeQuery();   
+                
+                while(rs.next()) {                
+                    String id = rs.getString("usuarios.id");
+                    String nome = rs.getString("usuarios.nome");
+                    String email = rs.getString("usuarios.email");
+                    String cargo = rs.getString("cargos.nome");
+
+                    String tbData[] = {id, nome, email, cargo};
+                    DefaultTableModel tblModel = (DefaultTableModel)tabelaUsuarios.getModel();
+                    tblModel.addRow(tbData);
+                }                
+            }                        
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao procurar pelo produto: " + e);            
+        }
+    }//GEN-LAST:event_pesquisaBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -274,13 +341,13 @@ public class TodosOsUsuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDeletarUsuario;
     private javax.swing.JButton btnEditarUsuarios;
+    private javax.swing.JTextField campoPesquisa;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton pesquisaBtn;
     private javax.swing.JTable tabelaUsuarios;
     // End of variables declaration//GEN-END:variables
 }

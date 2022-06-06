@@ -74,7 +74,7 @@ public class CadastrodeUsuario extends javax.swing.JFrame {
         jLabel1.setText("CADASTRO DE USUÁRIO");
 
         jButton2.setBackground(new java.awt.Color(8, 12, 70));
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Caio\\Desktop\\stockeqp\\stockEQP\\src\\Imagens\\botao-voltar (1).png")); // NOI18N
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/botao-voltar (1).png"))); // NOI18N
         jButton2.setBorder(null);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

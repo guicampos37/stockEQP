@@ -8,6 +8,7 @@ package Views;
 import Classes.Conexao;
 import Classes.Produto;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.JOptionPane;
@@ -40,9 +41,10 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
                 String fornecedor = rs.getString("fornecedor");
                 String quantidade = rs.getString("quantidade");
                 String quantidade_minima = rs.getString("quantidade_minima");
+                String categoria = rs.getString("categoria");
                 String localizacao = rs.getString("localizacao_fisica");
                 
-                String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, localizacao};
+                String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, categoria, localizacao};
                 DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
                 tblModel.addRow(tbData);
             }
@@ -68,8 +70,8 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaProdutos = new javax.swing.JTable();
-        jTextField1 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        campoPesquisa = new javax.swing.JTextField();
+        pesquisaBtn = new javax.swing.JButton();
         deletarProduto = new javax.swing.JButton();
         btnEditarProduto = new javax.swing.JButton();
 
@@ -126,11 +128,11 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Código", "Nome", "Fornecedor", "Qtd Atual", "Qtd Mínima", "Localização Física"
+                "ID", "Código", "Nome", "Fornecedor", "Qtd Atual", "Qtd Mínima", "Categoria", "Localização Física"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, true, true, true, true, true, true
+                false, true, true, true, true, true, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -155,19 +157,24 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
             tabelaProdutos.getColumnModel().getColumn(4).setPreferredWidth(80);
             tabelaProdutos.getColumnModel().getColumn(5).setResizable(false);
             tabelaProdutos.getColumnModel().getColumn(5).setPreferredWidth(50);
-            tabelaProdutos.getColumnModel().getColumn(6).setResizable(false);
-            tabelaProdutos.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tabelaProdutos.getColumnModel().getColumn(7).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(7).setPreferredWidth(100);
         }
 
-        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(133, 45, 740, 569));
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(133, 45, 920, 569));
 
-        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField1.setText("Digite para pesquisar");
-        getContentPane().add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 10, 210, 30));
+        campoPesquisa.setForeground(new java.awt.Color(204, 204, 204));
+        campoPesquisa.setText("Digite para pesquisar");
+        getContentPane().add(campoPesquisa, new org.netbeans.lib.awtextra.AbsoluteConstraints(840, 10, 210, 30));
 
-        jButton4.setForeground(new java.awt.Color(204, 204, 204));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/search icon.png"))); // NOI18N
-        getContentPane().add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 10, 30, 30));
+        pesquisaBtn.setForeground(new java.awt.Color(204, 204, 204));
+        pesquisaBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/search icon.png"))); // NOI18N
+        pesquisaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisaBtnMouseClicked(evt);
+            }
+        });
+        getContentPane().add(pesquisaBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 10, 30, 30));
 
         deletarProduto.setForeground(new java.awt.Color(204, 204, 204));
         deletarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/211835_trash_icon (1).png"))); // NOI18N
@@ -176,7 +183,7 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
                 deletarProdutoMouseClicked(evt);
             }
         });
-        getContentPane().add(deletarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(560, 10, 30, 30));
+        getContentPane().add(deletarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 10, 30, 30));
 
         btnEditarProduto.setForeground(new java.awt.Color(204, 204, 204));
         btnEditarProduto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/1976055_edit_edit document_edit file_edited_editing_icon.png"))); // NOI18N
@@ -190,7 +197,7 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
                 btnEditarProdutoActionPerformed(evt);
             }
         });
-        getContentPane().add(btnEditarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(520, 10, 30, 30));
+        getContentPane().add(btnEditarProduto, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 10, 30, 30));
 
         pack();
         setLocationRelativeTo(null);
@@ -266,6 +273,75 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarProdutoActionPerformed
 
+    private void pesquisaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesquisaBtnMouseClicked
+        String campo_pesquisa = campoPesquisa.getText();
+        
+        Connection conn = new Conexao().getConnection();
+        try {        
+            DefaultTableModel tblRemove = (DefaultTableModel)tabelaProdutos.getModel();
+            
+            if(campo_pesquisa.equals(null)) {
+                String sql = "SELECT * FROM produtos";
+                
+                while(tblRemove.getRowCount() > 0) {
+                    if (tblRemove.getRowCount() > 0){
+                        for (int i=1;i<=tblRemove.getRowCount();i++){
+                            tblRemove.removeRow(0);
+                        }            
+                    }
+                }   
+                
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+                ResultSet rs = pstm.executeQuery();
+                
+                while(rs.next()) {                
+                    String id = rs.getString("id");
+                    String nome = rs.getString("nome");
+                    String codigo = rs.getString("codigo");
+                    String fornecedor = rs.getString("fornecedor");
+                    String quantidade = rs.getString("quantidade");
+                    String quantidade_minima = rs.getString("quantidade_minima");
+                    String categoria = rs.getString("categoria");
+                    String localizacao = rs.getString("localizacao_fisica");
+
+                    String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, categoria, localizacao};
+                    DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
+                    tblModel.addRow(tbData);
+                }                
+                
+            } else { 
+                String sql = "SELECT * FROM produtos WHERE nome LIKE '" + campo_pesquisa + "%'";                  
+                
+                while(tblRemove.getRowCount() > 0) {
+                    if (tblRemove.getRowCount() > 0){
+                        for (int i=1;i<=tblRemove.getRowCount();i++){
+                            tblRemove.removeRow(0);
+                        }            
+                    }
+                }
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+                ResultSet rs = pstm.executeQuery();   
+                
+                while(rs.next()) {                
+                    String id = rs.getString("id");
+                    String nome = rs.getString("nome");
+                    String codigo = rs.getString("codigo");
+                    String fornecedor = rs.getString("fornecedor");
+                    String quantidade = rs.getString("quantidade");
+                    String quantidade_minima = rs.getString("quantidade_minima");
+                    String categoria = rs.getString("categoria");
+                    String localizacao = rs.getString("localizacao_fisica");
+
+                    String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, categoria, localizacao};
+                    DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
+                    tblModel.addRow(tbData);
+                }                
+            }                        
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao procurar pelo produto: " + e);            
+        }
+    }//GEN-LAST:event_pesquisaBtnMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -307,13 +383,13 @@ public class TelaDeVisualizacao extends javax.swing.JFrame {
     private javax.swing.JButton btnCadUsu;
     private javax.swing.JButton btnEditarProduto;
     private javax.swing.JButton btnTodUsu;
+    private javax.swing.JTextField campoPesquisa;
     private javax.swing.JButton deletarProduto;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton pesquisaBtn;
     private javax.swing.JTable tabelaProdutos;
     // End of variables declaration//GEN-END:variables
 }

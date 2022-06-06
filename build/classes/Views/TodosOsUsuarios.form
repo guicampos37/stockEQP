@@ -35,9 +35,9 @@
                       <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                       <Component id="btnDeletarUsuario" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jButton4" min="-2" pref="30" max="-2" attributes="0"/>
+                      <Component id="pesquisaBtn" min="-2" pref="30" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField1" min="-2" pref="210" max="-2" attributes="0"/>
+                      <Component id="campoPesquisa" min="-2" pref="210" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="59" pref="69" max="32767" attributes="0"/>
@@ -51,8 +51,8 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jButton4" min="-2" pref="30" max="-2" attributes="0"/>
-                  <Component id="jTextField1" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="pesquisaBtn" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="campoPesquisa" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="btnEditarUsuarios" min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="btnDeletarUsuario" min="-2" pref="30" max="-2" attributes="0"/>
               </Group>
@@ -133,7 +133,7 @@
               <Color blue="46" green="c" red="8" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="2" name="C:\Users\Caio\Desktop\stockeqp\stockEQP\src\Imagens\botao-voltar (1).png"/>
+              <Image iconType="3" name="/Imagens/botao-voltar (1).png"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
@@ -145,7 +145,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="campoPesquisa">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -153,7 +153,7 @@
         <Property name="text" type="java.lang.String" value="Digite para pesquisar"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton4">
+    <Component class="javax.swing.JButton" name="pesquisaBtn">
       <Properties>
         <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -162,6 +162,9 @@
           <Image iconType="3" name="/Imagens/search icon.png"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="pesquisaBtnMouseClicked"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>

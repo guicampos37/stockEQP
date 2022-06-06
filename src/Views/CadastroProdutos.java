@@ -54,7 +54,7 @@ public class CadastroProdutos extends javax.swing.JFrame {
         });
 
         jButton3.setBackground(new java.awt.Color(8, 12, 70));
-        jButton3.setIcon(new javax.swing.ImageIcon("C:\\Users\\Caio\\Desktop\\stockeqp\\stockEQP\\src\\Imagens\\botao-voltar (1).png")); // NOI18N
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/botao-voltar (1).png"))); // NOI18N
         jButton3.setBorder(null);
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

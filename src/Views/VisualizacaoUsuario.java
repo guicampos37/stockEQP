@@ -7,8 +7,10 @@ package Views;
 
 import Classes.Conexao;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -32,14 +34,16 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
             ResultSet rs = st.executeQuery(sql);
             
             while(rs.next()) {
+                String id = rs.getString("id");
                 String nome = rs.getString("nome");
                 String codigo = rs.getString("codigo");
                 String fornecedor = rs.getString("fornecedor");
                 String quantidade = rs.getString("quantidade");
                 String quantidade_minima = rs.getString("quantidade_minima");
+                String categoria = rs.getString("categoria");
                 String localizacao = rs.getString("localizacao_fisica");
                 
-                String tbData[] = {codigo, nome, fornecedor, quantidade, quantidade_minima, localizacao};
+                String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, categoria, localizacao};
                 DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
                 tblModel.addRow(tbData);
             }
@@ -60,8 +64,8 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaProdutos = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        pesquisaBtn = new javax.swing.JButton();
+        campoPesquisa = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,11 +74,11 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Código", "Nome", "Fornecedor", "Qtd Atual", "Qtd Mínima", "Localização Física"
+                "ID", "Código", "Nome", "Fornecedor", "Qtd Atual", "Qtd Mínima", "Categoria", "Localização Física"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, true, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -85,25 +89,30 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
         tabelaProdutos.setPreferredSize(new java.awt.Dimension(525, 600));
         jScrollPane1.setViewportView(tabelaProdutos);
         if (tabelaProdutos.getColumnModel().getColumnCount() > 0) {
-            tabelaProdutos.getColumnModel().getColumn(0).setResizable(false);
-            tabelaProdutos.getColumnModel().getColumn(0).setPreferredWidth(80);
             tabelaProdutos.getColumnModel().getColumn(1).setResizable(false);
-            tabelaProdutos.getColumnModel().getColumn(1).setPreferredWidth(190);
-            tabelaProdutos.getColumnModel().getColumn(3).setResizable(false);
-            tabelaProdutos.getColumnModel().getColumn(3).setPreferredWidth(80);
-            tabelaProdutos.getColumnModel().getColumn(4).setPreferredWidth(60);
-            tabelaProdutos.getColumnModel().getColumn(5).setResizable(false);
-            tabelaProdutos.getColumnModel().getColumn(5).setPreferredWidth(190);
+            tabelaProdutos.getColumnModel().getColumn(1).setPreferredWidth(80);
+            tabelaProdutos.getColumnModel().getColumn(2).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(2).setPreferredWidth(190);
+            tabelaProdutos.getColumnModel().getColumn(4).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(4).setPreferredWidth(80);
+            tabelaProdutos.getColumnModel().getColumn(5).setPreferredWidth(60);
+            tabelaProdutos.getColumnModel().getColumn(7).setResizable(false);
+            tabelaProdutos.getColumnModel().getColumn(7).setPreferredWidth(190);
         }
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel2.setText("Estoque");
 
-        jButton4.setForeground(new java.awt.Color(204, 204, 204));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/search icon.png"))); // NOI18N
+        pesquisaBtn.setForeground(new java.awt.Color(204, 204, 204));
+        pesquisaBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagens/search icon.png"))); // NOI18N
+        pesquisaBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pesquisaBtnMouseClicked(evt);
+            }
+        });
 
-        jTextField1.setForeground(new java.awt.Color(204, 204, 204));
-        jTextField1.setText("Digite para pesquisar");
+        campoPesquisa.setForeground(new java.awt.Color(204, 204, 204));
+        campoPesquisa.setText("Digite para pesquisar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -111,32 +120,101 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 740, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 962, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(pesquisaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pesquisaBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(campoPesquisa, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 569, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 579, Short.MAX_VALUE))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void pesquisaBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pesquisaBtnMouseClicked
+        String campo_pesquisa = campoPesquisa.getText();
+        
+        Connection conn = new Conexao().getConnection();
+        try {        
+            DefaultTableModel tblRemove = (DefaultTableModel)tabelaProdutos.getModel();
+            
+            if(campo_pesquisa.equals(null)) {
+                String sql = "SELECT * FROM produtos";
+                
+                while(tblRemove.getRowCount() > 0) {
+                    if (tblRemove.getRowCount() > 0){
+                        for (int i=1;i<=tblRemove.getRowCount();i++){
+                            tblRemove.removeRow(0);
+                        }            
+                    }
+                }   
+                
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+                ResultSet rs = pstm.executeQuery();
+                
+                while(rs.next()) {                
+                    String id = rs.getString("id");
+                    String nome = rs.getString("nome");
+                    String codigo = rs.getString("codigo");
+                    String fornecedor = rs.getString("fornecedor");
+                    String quantidade = rs.getString("quantidade");
+                    String quantidade_minima = rs.getString("quantidade_minima");
+                    String categoria = rs.getString("categoria");
+                    String localizacao = rs.getString("localizacao_fisica");
+
+                    String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, categoria, localizacao};
+                    DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
+                    tblModel.addRow(tbData);
+                }                
+                
+            } else { 
+                String sql = "SELECT * FROM produtos WHERE nome LIKE '" + campo_pesquisa + "%'";                  
+                
+                while(tblRemove.getRowCount() > 0) {
+                    if (tblRemove.getRowCount() > 0){
+                        for (int i=1;i<=tblRemove.getRowCount();i++){
+                            tblRemove.removeRow(0);
+                        }            
+                    }
+                }
+                PreparedStatement pstm = conn.prepareStatement(sql); 
+                ResultSet rs = pstm.executeQuery();   
+                
+                while(rs.next()) {                
+                    String id = rs.getString("id");
+                    String nome = rs.getString("nome");
+                    String codigo = rs.getString("codigo");
+                    String fornecedor = rs.getString("fornecedor");
+                    String quantidade = rs.getString("quantidade");
+                    String quantidade_minima = rs.getString("quantidade_minima");
+                    String categoria = rs.getString("categoria");
+                    String localizacao = rs.getString("localizacao_fisica");
+
+                    String tbData[] = {id, codigo, nome, fornecedor, quantidade, quantidade_minima, categoria, localizacao};
+                    DefaultTableModel tblModel = (DefaultTableModel)tabelaProdutos.getModel();
+                    tblModel.addRow(tbData);
+                }                
+            }                        
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao procurar pelo produto: " + e);            
+        }
+    }//GEN-LAST:event_pesquisaBtnMouseClicked
 
     /**
      * @param args the command line arguments
@@ -174,12 +252,10 @@ public class VisualizacaoUsuario extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JTextField campoPesquisa;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JButton pesquisaBtn;
     private javax.swing.JTable tabelaProdutos;
     // End of variables declaration//GEN-END:variables
 }
