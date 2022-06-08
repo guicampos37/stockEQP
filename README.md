@@ -23,9 +23,16 @@ Este foi um projeto desenvolvido na faculdade facens, a fim de realizar uma ativ
 
 ## DEMO 📺
 
-Tela de Login 
+Tela de Login:
+
+
 ![image](https://user-images.githubusercontent.com/89360553/172727610-9297f1fd-f8c4-4d27-9431-0d7c600d4f22.png)
-Tela Principal
+
+
+
+Tela Principal:
+
+
 ![image](https://user-images.githubusercontent.com/89360553/172727566-7e776663-7c2d-47bb-a85e-5b9f964fce7b.png)
 
  
