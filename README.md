@@ -1,12 +1,12 @@
-### STOCK EQP
+### STOCK EQP 📱
 
 Nosso software é um gerenciador de estoque desenvolvido em Java, focado para empresas que desejam organizar e otimizar seu estoque, almoxarifado, entre outras coisas.
 
-### Design
+### Design 💈
 
 Nosso software conta com telas minimalistas e de fácil entedimento.
 
-### Ferramentas Utilizadas 
+### Ferramentas Utilizadas 🛠️
 
 * NetBeans
 * MySql
@@ -15,13 +15,13 @@ Nosso software conta com telas minimalistas e de fácil entedimento.
 * Jira
 
 
-## Sobre o Projeto
+## Sobre o Projeto 🚩
 
 Este foi um projeto desenvolvido na faculdade facens, a fim de realizar uma ativdade de diversas matérias.
 
 
 
-## DEMO
+## DEMO 📺
 
 Tela de Login 
 ![image](https://user-images.githubusercontent.com/89360553/172727610-9297f1fd-f8c4-4d27-9431-0d7c600d4f22.png)
